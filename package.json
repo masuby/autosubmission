@@ -1,0 +1,13 @@
+{
+  "name": "daily-autosubmit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "node scripts/autoSubmit.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.5.0"
+  }
+}
