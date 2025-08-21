@@ -1,0 +1,31 @@
+name: Auto-submit daily reports
+
+on:
+  # Run every day at 00:05 Africa/Nairobi (UTC+3) → 21:05 UTC previous day
+  schedule:
+    - cron: "5 21 * * *"
+  # Allow manual run
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Africa/Nairobi   # make Date() operate in your local zone
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run auto-submit
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: npm start
